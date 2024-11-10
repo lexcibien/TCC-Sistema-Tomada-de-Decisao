@@ -19,6 +19,8 @@ app = DecisionMkg()
 sim = MonteCarloSim()
 workbook = app.initialize_excel()
 
+#ajeitar as pastas e consertar o retorno -1 para ambos os casos de valor no mesmo índice
+
 ultimo_tempo = time()
 count = 0
 while count < numberOfIterations:
