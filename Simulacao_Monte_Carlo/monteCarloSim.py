@@ -11,9 +11,6 @@ from datetime import datetime
 from time import time, sleep
 from random import randint
 
-app = DecisionMkg()
-
-
 actionList:list = []
 
 class MonteCarloSim:
@@ -29,23 +26,39 @@ class MonteCarloSim:
   def __init__(self):
     print("iniciando biblioteca Monte Carlo")
     self.patterns = [
-        (3, 3, 3),  # Padrão para index 0
-        (3, 3, 5),  # Padrão para index 1
-
-        # Adicione outros padrões conforme necessário
+        (3, 3, 3),  # vai do index 1 para frente
+        (3, 3, 5),
+        (3, 3, 4),
+        (3, 2, 2),
+        (3, 2, 3),
+        (3, 2, 4),
+        (3, 2, 5),
+        (3, 4, 3),
+        (3, 4, 5),
+        (3, 4, 4),
+        ([1, 2], 3, 3), #estou num impasse aqui
+        ([1, 2], 3, 5),
+        ([1, 2], 3, 4),
+        ([1, 2], 2, 2),
+        ([1, 2], 2, 3),
+        ([1, 2], 2, 5),
+        ([1, 2], 2, 4),
+        ([1, 2], 4, 4),
+        ([1, 2], 4, 5),
+        ([1, 2], 4, 3),
     ]
     # adicionar as outras placas e testar removendo a parte do DecisionMaking repetido.
-  def findPatternIndex(self, pot, cam, rfid):
+  def findMonteCarloIndex(self, pot, cam, rfid) -> int:
     for i, (p, c, r) in enumerate(self.patterns):
       if (pot, cam, rfid) == (p, c, r):
-        return i + 1
+        return i
     return -1
   
   def generateSimulationNumbers(self) -> tuple:
     value_from_pot = randint(1, 3)
     value_from_cam = randint(2, 4)
     value_from_rfid = randint(2, 5)
-    indexMC = app.whichIndexMatrix(value_from_pot, value_from_cam, value_from_rfid)
+    indexMC = self.findMonteCarloIndex(value_from_pot, value_from_cam, value_from_rfid)
     
     return value_from_pot, value_from_cam, value_from_rfid, indexMC
 
@@ -53,6 +66,7 @@ if __name__ == "__main__":
   INTERVALO = 1
   ultimo_tempo = time()
   sim = MonteCarloSim()
+  app = DecisionMkg()
   workbook = app.initialize_excel()
 
   count = 0

@@ -25,10 +25,14 @@ while count < numberOfIterations:
   tempo_atual = time()
 
   if tempo_atual - ultimo_tempo >= INTERVALO:
-    pot_value, cam_value, rfid_value, monteCarloIndex = sim.generateSimulationNumbers()
-    indexDMkg = app.whichIndexMatrix(pot_value, cam_value, rfid_value)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    app.saveLog(workbook, timestamp, pot_value, cam_value, rfid_value, monteCarloIndex, indexDMkg)
+    #pot_value, cam_value, rfid_value, monteCarloIndex = sim.generateSimulationNumbers()
+    #indexDMkg = app.whichIndexMatrix(pot_value, cam_value, rfid_value)
+    #timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    #app.saveLog(workbook, timestamp, pot_value, cam_value, rfid_value, monteCarloIndex, indexDMkg)
+
+    print(sim.findMonteCarloIndex(1, 3, 3))  # Deve retornar o índice que corresponde ao primeiro padrão
+    print(sim.findMonteCarloIndex(2, 3, 3))  # Deve retornar o mesmo índice
+    print(sim.findMonteCarloIndex(1, 4, 3))  # Retorna o índice correspondente ao padrão adequado
     
     ultimo_tempo = tempo_atual
     count += 1
