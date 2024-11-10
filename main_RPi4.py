@@ -12,7 +12,7 @@ from Simulacao_Monte_Carlo.monteCarloSim import MonteCarloSim
 from datetime import datetime
 from time import time, sleep
 
-numberOfIterations = 5
+numberOfIterations = 1
 
 INTERVALO = 0.5
 app = DecisionMkg()
@@ -27,14 +27,19 @@ while count < numberOfIterations:
   tempo_atual = time()
 
   if tempo_atual - ultimo_tempo >= INTERVALO:
-    #pot_value, cam_value, rfid_value, monteCarloIndex = sim.generateSimulationNumbers()
-    #indexDMkg = app.whichIndexMatrix(pot_value, cam_value, rfid_value)
-    #timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    #app.saveLog(workbook, timestamp, pot_value, cam_value, rfid_value, monteCarloIndex, indexDMkg)
+    pot_value, cam_value, rfid_value, monteCarloIndex = sim.generateSimulationNumbers()
+    DMkgIndex = app.whichIndexMatrix(pot_value, cam_value, rfid_value)
 
-    print(sim.findMonteCarloIndex(1, 3, 3))  # Deve retornar o índice que corresponde ao primeiro padrão
-    print(sim.findMonteCarloIndex(2, 3, 3))  # Deve retornar o mesmo índice
-    print(sim.findMonteCarloIndex(1, 4, 3))  # Retorna o índice correspondente ao padrão adequado
+    print(f'Este é o valor do potenciômetro: {pot_value}')
+    print(f'Este é o valor do potenciômetro: {cam_value}')
+    print(f'Este é o valor do potenciômetro: {rfid_value}')
+    print(f'Este é o valor do índice de Monte Carlo: {monteCarloIndex}')
+    print(f'Este é o valor do índice da tomada de decisão: {DMkgIndex}')
+
     
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    print(f'Este é o timestamp: {timestamp}')
+    #app.saveLog(workbook, timestamp, pot_value, cam_value, rfid_value, monteCarloIndex, DMkgIndex)
+
     ultimo_tempo = tempo_atual
     count += 1

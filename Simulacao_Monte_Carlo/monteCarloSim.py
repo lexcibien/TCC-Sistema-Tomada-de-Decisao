@@ -6,7 +6,6 @@ Data de início: setembro de 2024
 
 **************************************************************"""
 
-from Decision_Making_TCC.DecisionMkgRPI_lib import DecisionMkg
 from datetime import datetime
 from time import time, sleep
 from random import randint
@@ -26,34 +25,36 @@ class MonteCarloSim:
   def __init__(self):
     print("iniciando biblioteca Monte Carlo")
     self.patterns = [
-        (3, 3, 3),  # vai do index 1 para frente
-        (3, 3, 5),
-        (3, 3, 4),
-        (3, 2, 2),
-        (3, 2, 3),
-        (3, 2, 4),
-        (3, 2, 5),
-        (3, 4, 3),
-        (3, 4, 5),
-        (3, 4, 4),
-        ([1, 2], 3, 3), #estou num impasse aqui
-        ([1, 2], 3, 5),
-        ([1, 2], 3, 4),
-        ([1, 2], 2, 2),
-        ([1, 2], 2, 3),
-        ([1, 2], 2, 5),
-        ([1, 2], 2, 4),
-        ([1, 2], 4, 4),
-        ([1, 2], 4, 5),
-        ([1, 2], 4, 3),
+        (self.PARAR, self.PARAR, self.PARAR),  # Vai do index 1 para frente
+        (self.PARAR, self.PARAR, self.PEDESTRE),
+        (self.PARAR, self.PARAR, self.VEL20KMH),
+        (self.PARAR, self.N_DETECTOU, self.N_DETECTOU),
+        (self.PARAR, self.N_DETECTOU, self.PARAR),
+        (self.PARAR, self.N_DETECTOU, self.VEL20KMH),
+        (self.PARAR, self.N_DETECTOU, self.PEDESTRE),
+        (self.PARAR, self.VEL20KMH, self.PARAR),
+        (self.PARAR, self.VEL20KMH, self.PEDESTRE),
+        (self.PARAR, self.VEL20KMH, self.VEL20KMH),
+        ([self.ACELERAR, self.OCIOSO], self.PARAR, self.PARAR),
+        ([self.ACELERAR, self.OCIOSO], self.PARAR, self.PEDESTRE),
+        ([self.ACELERAR, self.OCIOSO], self.PARAR, self.VEL20KMH),
+        ([self.ACELERAR, self.OCIOSO], self.N_DETECTOU, self.N_DETECTOU),
+        ([self.ACELERAR, self.OCIOSO], self.N_DETECTOU, self.PARAR),
+        ([self.ACELERAR, self.OCIOSO], self.N_DETECTOU, self.PEDESTRE),
+        ([self.ACELERAR, self.OCIOSO], self.N_DETECTOU, self.VEL20KMH),
+        ([self.ACELERAR, self.OCIOSO], self.VEL20KMH, self.VEL20KMH),
+        ([self.ACELERAR, self.OCIOSO], self.VEL20KMH, self.PEDESTRE),
+        ([self.ACELERAR, self.OCIOSO], self.VEL20KMH, self.PARAR), # Este é o index 20
     ]
-    # adicionar as outras placas e testar removendo a parte do DecisionMaking repetido.
+  
   def findMonteCarloIndex(self, pot, cam, rfid) -> int:
     for i, (p, c, r) in enumerate(self.patterns):
-      if (pot, cam, rfid) == (p, c, r):
-        return i
+      # Verifica se `p` é uma lista (ou conjunto de valores) ou um valor único
+      pot_matches = pot in p if isinstance(p, list) else pot == p
+      if pot_matches and cam == c and rfid == r:
+        return i + 1
     return -1
-  
+
   def generateSimulationNumbers(self) -> tuple:
     value_from_pot = randint(1, 3)
     value_from_cam = randint(2, 4)
@@ -64,20 +65,21 @@ class MonteCarloSim:
 
 if __name__ == "__main__":
   INTERVALO = 1
-  ultimo_tempo = time()
+  last_time = time()
   sim = MonteCarloSim()
-  app = DecisionMkg()
-  workbook = app.initialize_excel()
 
   count = 0
   while count < 5:
-    tempo_atual = time()
+    now_time = time()
 
-    if tempo_atual - ultimo_tempo >= INTERVALO:
+    if now_time - last_time >= INTERVALO:
       pot_value, cam_value, rfid_value, monteCarloIndex = sim.generateSimulationNumbers()
-      indexDMkg = app.whichIndexMatrix(pot_value, cam_value, rfid_value)
-      timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-      app.saveLog(workbook, timestamp, pot_value, cam_value, rfid_value, monteCarloIndex, indexDMkg)
+
+      print(f'Este é o valor do potenciômetro: {pot_value}')
+      print(f'Este é o valor do potenciômetro: {cam_value}')
+      print(f'Este é o valor do potenciômetro: {rfid_value}')
+      print(f'Este é o valor do índice de Monte Carlo: {monteCarloIndex}')
       
-      ultimo_tempo = tempo_atual
+      
+      last_time = now_time
       count += 1
