@@ -32,7 +32,7 @@ lastTime1 = time()
 lastTime2 = time()
 usleep = lambda x: sleep(x/1000000.0)
 
-app = DecisionMkg
+app = DecisionMkg()
 transmissor = Comms(SERIAL_PORT, BAUD_RATE, SERIAL_TIMEOUT_MS)
 print("Iniciando Transmissor")
 workbook = app.initialize_excel()
