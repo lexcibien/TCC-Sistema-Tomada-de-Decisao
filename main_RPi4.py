@@ -1,63 +1,34 @@
 """**************************************************************
 
-Programação para comunicação com rede CAN, inversor de tração, 
-câmera para leitura de placas e leitor RFID
+Programação para simulação do sistema de tomada de decisão
 Autor: Alex Luiz Cibien E Silva
 Data de início: abril de 2024
 
 **************************************************************"""
 
-from Serial_Protocol_TCC.CommsRPi_lib import Comms
+
 from Decision_Making_TCC.DecisionMkgRPI_lib import DecisionMkg
-from Sign_Detection_TCC.detection import indexVal, getClassName, capture_photo
+from Simulacao_Monte_Carlo.monteCarloSim import MonteCarloSim
 from datetime import datetime
 from time import time, sleep
 
-SERIAL_PORT = "/dev/ttyAMA0"
-BAUD_RATE = 115200
-SERIAL_TIMEOUT_MS = 500
-INTERVALO = 1  #segundo(s)
+numberOfIterations = 5
 
-newRotMotor = 0
-RotMotor = 0
-StatusInv = ''
-TempFET1 = 0
-VeloCarro = 0
-newVeloCarro = 0
-
-PotValue = 0
-PotVoltageValue = 0
-
-lastTime1 = time()
-lastTime2 = time()
-usleep = lambda x: sleep(x/1000000.0)
-
-app = DecisionMkg
-transmissor = Comms(SERIAL_PORT, BAUD_RATE, SERIAL_TIMEOUT_MS)
-print("Iniciando Transmissor")
+INTERVALO = 0.5
+app = DecisionMkg()
+sim = MonteCarloSim()
 workbook = app.initialize_excel()
 
-while True:
+ultimo_tempo = time()
+count = 0
+while count < numberOfIterations:
   tempo_atual = time()
-  
-  if tempo_atual - lastTime1 >= (INTERVALO / 10):
-    raw_PotValue = transmissor.reqValuePot()
-    PotVoltageValue = transmissor.reqVoltagePot()
-    print(f"Valor do potenciômetro: {raw_PotValue}")
-    print(f"Valor de tensão: {PotVoltageValue}")
-    
-    raw_CamValue = getClassName(indexVal)
-    PotValue = app.getPotValue(raw_PotValue)
-    CamValue = app.getCamValue(raw_CamValue)
-    RFIDValue = app.getRFIDValue()
-    lastTime1 = tempo_atual
 
-  elif tempo_atual - lastTime2 >= INTERVALO:
-    decisionFromLogic = app.decisionFromInput(PotValue, CamValue, RFIDValue)
-    #app.executeDecision(decisionFromLogic)
-    indexMatrix = app.whichIndexMatrix(PotValue, CamValue, RFIDValue)
+  if tempo_atual - ultimo_tempo >= INTERVALO:
+    pot_value, cam_value, rfid_value, monteCarloIndex = sim.generateSimulationNumbers()
+    indexDMkg = app.whichIndexMatrix(pot_value, cam_value, rfid_value)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    app.saveLog(workbook, timestamp, PotValue, CamValue, RFIDValue, indexMatrix)
-    capture_photo(timestamp)
+    app.saveLog(workbook, timestamp, pot_value, cam_value, rfid_value, monteCarloIndex, indexDMkg)
     
-    lastTime2 = tempo_atual
+    ultimo_tempo = tempo_atual
+    count += 1

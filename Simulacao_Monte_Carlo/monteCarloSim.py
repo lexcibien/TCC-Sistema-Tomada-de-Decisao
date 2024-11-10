@@ -6,7 +6,7 @@ Data de início: setembro de 2024
 
 **************************************************************"""
 
-from DecisionMkgRPI_lib import DecisionMkg
+from Decision_Making_TCC.DecisionMkgRPI_lib import DecisionMkg
 from datetime import datetime
 from time import time, sleep
 from random import randint
