@@ -1,0 +1,33 @@
+{
+  "cSpell.words": [
+    "amax",
+    "argmax",
+    "bitrate",
+    "bustype",
+    "codificacao",
+    "Comms",
+    "Deteccao",
+    "dtoverlay",
+    "gpio",
+    "GPIO",
+    "imshow",
+    "keras",
+    "Km",
+    "KM",
+    "Km/h",
+    "millis",
+    "miniuart",
+    "openpyxl",
+    "picamera",
+    "Picamera",
+    "potenciometro",
+    "raspi",
+    "rfid",
+    "RFID",
+    "socketcan",
+    "uart",
+    "UART",
+    "usleep",
+    "XRGB"
+  ]
+}
