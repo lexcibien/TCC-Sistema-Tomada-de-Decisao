@@ -6,6 +6,8 @@ Data de início: abril de 2024
 
 **************************************************************"""
 
+#AVISO: Rodar esse código irá substituir a matriz de confusão já criada
+
 from Decision_Making_TCC.DecisionMkgRPI_lib import DecisionMkg
 from Simulacao_Monte_Carlo.monteCarloSim import MonteCarloSim
 from numpy import zeros
