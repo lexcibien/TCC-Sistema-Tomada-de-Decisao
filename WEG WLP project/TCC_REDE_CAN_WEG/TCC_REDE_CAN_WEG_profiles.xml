@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<PROFILE_LIST>
+<PROFILE CamTable="1" CamType="Fixed" CamFile="CamTable1" CamPoits="0"/>
+<PROFILE CamTable="2" CamType="Fixed" CamFile="CamTable2" CamPoits="0"/>
+<PROFILE CamTable="3" CamType="Fixed" CamFile="CamTable3" CamPoits="0"/>
+<PROFILE CamTable="4" CamType="Fixed" CamFile="CamTable4" CamPoits="0"/>
+<PROFILE CamTable="5" CamType="Fixed" CamFile="CamTable5" CamPoits="0"/>
+<PROFILE CamTable="6" CamType="Fixed" CamFile="CamTable6" CamPoits="0"/>
+<PROFILE CamTable="7" CamType="Fixed" CamFile="CamTable7" CamPoits="0"/>
+<PROFILE CamTable="8" CamType="Fixed" CamFile="CamTable8" CamPoits="0"/>
+<PROFILE CamTable="9" CamType="Fixed" CamFile="CamTable9" CamPoits="0"/>
+<PROFILE CamTable="10" CamType="Fixed" CamFile="CamTable10" CamPoits="0"/>
+<PROFILE CamTable="11" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="12" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="13" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="14" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="15" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="16" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="17" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="18" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="19" CamType="Calculable" CamFile="---" CamPoits="0"/>
+<PROFILE CamTable="20" CamType="Calculable" CamFile="---" CamPoits="0"/>
+</PROFILE_LIST>

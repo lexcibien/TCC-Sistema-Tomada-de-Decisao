@@ -1,0 +1,9 @@
+WEG Ladder Programmer V11.14
+Copyright (C) 1999-2024 WEG. Todos os direitos reservados.
+
+Sintaxe da mensagem :
+Nome do arquivo (Página,Linha,Coluna) :
+Código : mensagem
+
+TCC_REDE_CAN_WEG.BIN - 0 erro(s), 0 advertência(s)
+- Tamanho do aplicativo : 244 bytes

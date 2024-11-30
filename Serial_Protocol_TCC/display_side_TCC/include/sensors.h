@@ -16,6 +16,7 @@ public:
   long analogFilter(uint16_t, uint16_t []);
   int calculaPerCent();
   float calculaVoltage();
+  float calculaRawVoltage();
 private:
   // pelo visto são as variáveis locais que todas tem
 };

@@ -1,0 +1,9 @@
+(* WEG Ladder Programmer V11.14 *)
+(* Copyright (C) 1999-2024 WEG. Todos os direitos reservados. *)
+
+(* ***** INFORMAÇÕES PARA DEPURAÇÃO ***** *)
+
+(* PÁGINA 1 *)
+( 1, 1, 0) (Rotação de Referência) P0121 = Valor Velocidade (Seleção da Referência de Velocidade) P0222 = 6 (CAN) achar o Sentido de Giro, Gira/Para e JOG
+( 1, 2, 0) (Seleção LOCAL/REMOTO) P0220 = 8 (CAN REM) (Seleção do Sentido de Giro) P0226 = 7 (CAN H (Default Horário) (Seleção de Gira / Para) P0227 = 3 (CAN) (PROTOCOLO CAN) P0700 = 1 (CAN)
+( 1, 3, 0) (PROTOCOLO CAN) P0684   (Referência de Velocidade CAN) P0685 

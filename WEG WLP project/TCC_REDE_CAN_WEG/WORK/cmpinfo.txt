@@ -1,0 +1,31 @@
+WEG Ladder Programmer V11.14
+Copyright (C) 1999-2024 WEG. Todos os direitos reservados.
+
+***** INFORMAÇÕES SOBRE O COMPILADOR *****
+
+- Equipamento        : CVW300
+- Projeto            : TCC_REDE_CAN_WEG.LDD
+- Hora               : 20:16:34
+- Data               : Friday, October 18, 2024
+- Tempo decorrido    : 0 segundo(s)
+
+***** INFORMAÇÕES DO PROGRAMA *****
+
+- Páginas         : 1
+- Lógicas         : 0
+- Elementos       : 0
+
+***** INFORMAÇÕES SOBRE OS ARQUIVOS *****
+
+- Caminho do projeto : c:\weg\wlp v11.14\projects\tcc_rede_can_weg  
+
+- Nome               : tcc_rede_can_weg.ldd
+- Hora               : 20:13:40
+- Data               : Friday, October 18, 2024
+- Tamanho            : 725 bytes
+
+- Nome               : work\tcc_rede_can_weg.bin
+- Hora               : 20:16:34
+- Data               : Friday, October 18, 2024
+- Tamanho            : 244 bytes
+
