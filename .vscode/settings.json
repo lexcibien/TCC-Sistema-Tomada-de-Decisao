@@ -10,6 +10,7 @@
     "Deteccao",
     "dtoverlay",
     "dtype",
+    "FAPESC",
     "gpio",
     "GPIO",
     "imshow",
