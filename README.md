@@ -6,6 +6,10 @@ Foi utilizado o branch de **simulation** para realização do meu TCC. O branch 
 
 ## Desenvolvimento
 
+Abaixo está a árvore de decisão que foi desenvolvida para servir de base para a programação do sistema de decisão.
+
+<img align="center" src="/../simulation/assets/ARVORE_DECISAO.png?raw=true">
+
 Abaixo está o diagrama da bancada de teste.
 
 <img align="center" src="/../simulation/assets/DIAGRAMA_PROJETO.png?raw=true">
