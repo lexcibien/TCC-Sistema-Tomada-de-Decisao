@@ -1,0 +1,3 @@
+[submodule "Sign_Detection_TCC_1"]
+	path = Sign_Detection_TCC_1
+	url = https://github.com/RoboticaSATC/Reconhecimento-de-Placas.git
