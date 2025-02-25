@@ -1,11 +1,14 @@
-from time import sleep
+"""
+  Executar o código no terminal do Raspberry Pi
+  python3 main.py
+"""
 from CANBusRPi_lib import canBus
 
-newRotMotor = 110;
-RotMotor = 100;
-StatusInv = 70;
-VeloCarro = 50;
-TempFET1 = 30;
+newRotMotor = 110
+RotMotor = 100
+StatusInv = 70
+VeloCarro = 50
+TempFET1 = 30
 
 """ newRotMotor = 110;
 RotMotor = 100;

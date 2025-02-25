@@ -7,20 +7,20 @@ Data de início: setembro de 2024
 **************************************************************"""
 
 
-from openpyxl import Workbook, load_workbook
 from datetime import datetime
 from time import time, sleep
 from os import path
+from openpyxl import Workbook, load_workbook
 
 class DecisionMkg:
-
-  POT_reading:int = 0
-  POT_value:int = 0
-  CAMERA_value:int = 0
-  RFID_value:int = 0
-  Vel_value:int = 0
-  VelReal_value:int = 0
-  car_hadStopped:bool = 0
+  """Classe para tomada de decisão entre a câmera, RFID e potenciômetro"""
+  pot_reading:int = 0
+  pot_value:int = 0
+  camera_value:int = 0
+  rfid_value:int = 0
+  vel_value:int = 0
+  vel_real_value:int = 0
+  car_had_stopped:bool = 0
   last_detected_sign:int = None
   previous_detected_sign:int = None
 
@@ -35,83 +35,89 @@ class DecisionMkg:
   def __init__(self):
     print("iniciando biblioteca Decision Making")
 
-  def getCamValue(self, _cam_value) -> int:    
+  def get_cam_value(self, _cam_value) -> int:
+    """Função para obter o valor da câmera""" 
     if _cam_value == '20km/h':
-      self.CAMERA_value = self.VEL20KMH
+      self.camera_value = self.VEL20KMH
     elif _cam_value == 'PARE':
-      self.CAMERA_value = self.PARAR
+      self.camera_value = self.PARAR
     elif _cam_value == '':
-      self.CAMERA_value = self.N_DETECTOU
+      self.camera_value = self.N_DETECTOU
+ 
+    print(f"O valor da camera é: {self.camera_value}")
     
-    print(f"O valor da camera é: {self.CAMERA_value}")
-    
-    return self.CAMERA_value
+    return self.camera_value
 
-  def getPotValue(self, _pot_reading) -> int:
+  def get_pot_value(self, _pot_reading) -> int:
+    """Função para obter o valor do potenciômetro"""
     if _pot_reading >= 10:
-      self.POT_value = self.ACELERAR
+      self.pot_value = self.ACELERAR
     elif _pot_reading <= -10:
-      self.POT_value = self.PARAR
+      self.pot_value = self.PARAR
     else:
-      self.POT_value = self.OCIOSO
+      self.pot_value = self.OCIOSO
     
-    print(f"O valor do potenciometro é: {self.POT_value}")
+    print(f"O valor do potenciometro é: {self.pot_value}")
     
-    return self.POT_value
+    return self.pot_value
     
-  def getRFIDValue(self) -> int:
-    if self.RFID_value == self.VEL20KMH:
-      self.RFID_value = self.VEL20KMH
-    elif self.RFID_value == self.N_DETECTOU:
-      self.RFID_value = self.N_DETECTOU
-    elif self.RFID_value == self.PEDESTRE:
-      self.RFID_value = self.PEDESTRE
-    elif self.RFID_value == self.PARAR:
-      self.RFID_value = self.PARAR
+  def get_rfid_value(self) -> int:
+    """Função para obter o valor do RFID"""
+    if self.rfid_value == self.VEL20KMH:
+      self.rfid_value = self.VEL20KMH
+    elif self.rfid_value == self.N_DETECTOU:
+      self.rfid_value = self.N_DETECTOU
+    elif self.rfid_value == self.PEDESTRE:
+      self.rfid_value = self.PEDESTRE
+    elif self.rfid_value == self.PARAR:
+      self.rfid_value = self.PARAR
     
-    print(f"O valor do RFID é: {self.RFID_value}")
+    print(f"O valor do RFID é: {self.rfid_value}")
     
-    return self.RFID_value
+    return self.rfid_value
   
   def update_detected_sign(self, new_sign: int) -> None:
+    """Função para atualizar o sinal detectado"""
     self.previous_detected_sign = self.last_detected_sign
     self.last_detected_sign = new_sign
 
-  def brakeAndGoCommand(self, reading_from_pot: int) -> None:
-    if self.car_hadStopped:
-      self.Vel_value = 0
+  def brake_and_go_command(self, reading_from_pot: int) -> None:
+    """Função para frear e aguardar 5 segundos antes de acelerar novamente"""
+    if self.car_had_stopped:
+      self.vel_value = 0
       sleep(5) # Aguarda cinco segundos por segurança
       
       if reading_from_pot == self.ACELERAR:
         return
       else:
-        self.car_hadStopped = False
-  
-  def decisionFromInputImproved(self, value_from_pot: int, value_from_cam: int, value_from_rfid: int) -> int:
+        self.car_had_stopped = False
+
+  def decision_from_input_improved(self, value_from_pot: int, value_from_cam: int, value_from_rfid: int) -> int:
+    """Função para tomar decisões baseadas nos valores de entrada"""
     if self.PARAR in (value_from_pot, value_from_cam, value_from_rfid):
       print(f"POT {value_from_pot}, CAM {value_from_cam} e RFID {value_from_rfid}")
       return self.PARAR
-    elif value_from_rfid == self.PEDESTRE:
+    if value_from_rfid == self.PEDESTRE:
       print(f"POT {value_from_pot}, CAM {value_from_cam} e RFID {value_from_rfid}")
       return self.PEDESTRE
     
-    elif value_from_pot in (self.ACELERAR, self.OCIOSO):
+    if value_from_pot in (self.ACELERAR, self.OCIOSO):
       print(f"POT {value_from_pot}")
       if value_from_cam == self.N_DETECTOU:
         print(f"CAM {value_from_cam}")
         if value_from_rfid == self.N_DETECTOU:
           print(f"RFID {value_from_rfid}")
           return self.N_LIMITE
-        elif value_from_rfid == self.VEL20KMH:
+        if value_from_rfid == self.VEL20KMH:
           print(f"RFID {value_from_rfid}")
           return self.VEL20KMH
         
-      elif value_from_cam == self.VEL20KMH:
+      if value_from_cam == self.VEL20KMH:
         print(f"CAM {value_from_cam}")
         if value_from_rfid == self.N_DETECTOU:
           print(f"RFID {value_from_rfid}")
           return self.N_LIMITE
-        elif value_from_rfid == self.VEL20KMH:
+        if value_from_rfid == self.VEL20KMH:
           print(f"RFID {value_from_rfid}")
           return self.VEL20KMH
         
@@ -124,7 +130,8 @@ class DecisionMkg:
   # a entrada é o "montecarlo" e a saída é o meu programa (whichIndexMatrix)
   # da de fazer tudo pelo pc
 
-  def whichIndexMatrix(self, value_from_pot: int, value_from_cam: int, value_from_rfid: int) -> int:
+  def which_index_matrix(self, value_from_pot: int, value_from_cam: int, value_from_rfid: int) -> int:
+    """Função para determinar o índice da matriz de decisão"""
     if value_from_pot == self.PARAR:
       if value_from_cam == self.PARAR:
         if value_from_rfid == self.PARAR:
@@ -174,43 +181,48 @@ class DecisionMkg:
           return 19
         elif value_from_rfid == self.PARAR:
           return 20
+    return None
         
-  def executeDecision(self, valueFromDecision: int) -> None:
-    if valueFromDecision == self.PARAR:
-      self.brakeAndGoCommand(potentiometer_reading)
-    elif valueFromDecision == self.N_LIMITE:
-      self.Vel_value == potentiometer_reading/2
-    elif valueFromDecision == self.VEL20KMH:
-      if self.VelReal_value <= 18:
+  def execute_decision(self, value_from_decision: int) -> None:
+    """Função para executar a decisão tomada"""
+    if value_from_decision == self.PARAR:
+      self.brake_and_go_command(self.pot_reading)
+    elif value_from_decision == self.N_LIMITE:
+      self.vel_value == self.pot_reading/2
+    elif value_from_decision == self.VEL20KMH:
+      if self.vel_real_value <= 18:
         print("deixa o comando do motorista")
-        self.Vel_value == potentiometer_reading/2
-      elif self.VelReal_value >= 22:
+        self.vel_value == self.pot_reading/2
+      elif self.vel_real_value >= 22:
         print("abaixa pra 20km/hr")
-        self.Vel_value == 20    
+        self.vel_value == 20
+    print(self.vel_value)
       
   def initialize_excel(self, filename="log_data.xlsx"):
+    """Função para inicializar o arquivo Excel"""
     if path.exists(filename):
-      workbook = load_workbook(filename)
+      excel_workbook = load_workbook(filename)
     
     else:
-      workbook = Workbook()
-      sheet = workbook.active
+      excel_workbook = Workbook()
+      sheet = excel_workbook.active
       sheet.title = "DataLog"
       sheet.append(["Timestamp", "Potenciometro", "Camera", "RFID", "index de Entrada", "index de Saida"])      
-      workbook.save(filename)
+      excel_workbook.save(filename)
 
-    return workbook
+    return excel_workbook
   
-  def saveLog(self, workbook, _timestamp:str, value_from_pot:int, value_from_cam:int, value_from_rfid:int, 
+  def save_log(self, workbook_save, _timestamp:str, value_from_pot:int, value_from_cam:int, value_from_rfid:int, 
               index_from_enter, index_from_exit, filename="log_data.xlsx") -> None:
-    sheet = workbook.active
+    """Função para salvar os dados no arquivo Excel"""
+    sheet = workbook_save.active
     _timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     sheet.append([_timestamp, value_from_pot, value_from_cam, value_from_rfid, index_from_enter, index_from_exit])
-    workbook.save(filename)
+    workbook_save.save(filename)
     print(f"Dados salvos no Excel com timestamp {_timestamp}")
 
 if __name__ == "__main__":
-  from ..Sign_Detection_TCC.detection import getClassName, capture_photo, indexVal
+  from Sign_Detection_TCC.detection import getClassName, capture_photo, indexVal
 
   INTERVALO = 1
   ultimo_tempo = time() 
@@ -220,18 +232,18 @@ if __name__ == "__main__":
   while True:
     tempo_atual = time()
     raw_cam_value = getClassName(indexVal)
-    potentiometer_reading = app.POT_reading
-    potentiometer_value = app.getPotValue()
-    cam_value = app.getCamValue(raw_cam_value)
-    rfid_value = app.getRFIDValue()
+    potentiometer_reading = app.pot_reading
+    potentiometer_value = app.get_pot_value(potentiometer_reading)
+    cam_value = app.get_cam_value(raw_cam_value)
+    rfid_value = app.get_rfid_value()
 
     if tempo_atual - ultimo_tempo >= INTERVALO:
       #decisionFromLogic = app.decisionFromInputImproved(potentiometer_value, cam_value, rfid_value)
-      decisionFromLogic = app.decisionFromInputImproved(potentiometer_value, cam_value, rfid_value)
+      decision_from_logic = app.decision_from_input_improved(potentiometer_value, cam_value, rfid_value)
       #app.executeDecision(decisionFromLogic)
-      indexExit = app.whichIndexMatrix(potentiometer_value, cam_value, rfid_value)
+      indexExit = app.which_index_matrix(potentiometer_value, cam_value, rfid_value)
       timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-      app.saveLog(workbook, timestamp, potentiometer_value, cam_value, rfid_value, 0, indexExit)
+      app.save_log(workbook, timestamp, potentiometer_value, cam_value, rfid_value, 0, indexExit)
       capture_photo(timestamp)
 
       ultimo_tempo = tempo_atual

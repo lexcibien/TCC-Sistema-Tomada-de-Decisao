@@ -10,6 +10,7 @@ import os
 import can
 
 class canBus:
+  """Classe para comunicação com rede CAN e inversor de tração"""
   
   CAN_Channel = ''
   CAN_bitrate = ''
@@ -23,34 +24,35 @@ class canBus:
     self.CAN_bitrate = _bitrate
 
   def openCommCAN(self):
-    # Configurações da interface CAN
+    """Função para abrir a comunicação CAN"""
     commandLine = 'sudo ip link set ' + self.CAN_Channel + ' type can bitrate ' + self.CAN_bitrate
     os.system(commandLine)
     commandLine = 'sudo ifconfig ' + self.CAN_Channel + ' up'
     os.system(commandLine)
 
   def closeCommCAN(self):
-    # Desliga a interface CAN
+    """Desliga a interface CAN"""
     commandLine = 'sudo ifconfig ' + self.CAN_Channel + ' down'
     os.system(commandLine)
   
   # Função para enviar a mensagem CAN com até 4 informações
-  def sendMessageCAN(self, _CAN_id=0x00, info1=None, info2=None, info3=None, info4=None):
+  def sendMessageCAN(self, _CAN_id=0x00, sendInfo1=None, sendInfo2=None, sendInfo3=None, sendInfo4=None):
+    """Função para enviar a mensagem CAN com até 4 informações"""
       
     self.openCommCAN()
 
     # Substitui valores None por 0
-    info1 = 0 if info1 is None else info1
-    info2 = 0 if info2 is None else info2
-    info3 = 0 if info3 is None else info3
-    info4 = 0 if info4 is None else info4
+    sendInfo1 = 0 if sendInfo1 is None else sendInfo1
+    sendInfo2 = 0 if sendInfo2 is None else sendInfo2
+    sendInfo3 = 0 if sendInfo3 is None else sendInfo3
+    sendInfo4 = 0 if sendInfo4 is None else sendInfo4
 
     # Converte cada info em 2 bytes separados (big-endian)
     data = [
-        (info1 >> 8) & 0xFF, info1 & 0xFF,  # Byte alto e baixo de info1
-        (info2 >> 8) & 0xFF, info2 & 0xFF,  # Byte alto e baixo de info2
-        (info3 >> 8) & 0xFF, info3 & 0xFF,  # Byte alto e baixo de info3
-        (info4 >> 8) & 0xFF, info4 & 0xFF   # Byte alto e baixo de info4
+        (sendInfo1 >> 8) & 0xFF, sendInfo1 & 0xFF,  # Byte alto e baixo de info1
+        (sendInfo2 >> 8) & 0xFF, sendInfo2 & 0xFF,  # Byte alto e baixo de info2
+        (sendInfo3 >> 8) & 0xFF, sendInfo3 & 0xFF,  # Byte alto e baixo de info3
+        (sendInfo4 >> 8) & 0xFF, sendInfo4 & 0xFF   # Byte alto e baixo de info4
     ]
 
     # Envia a mensagem CAN
@@ -62,7 +64,7 @@ class canBus:
 
   # Função para receber a mensagem CAN e retornar uma tupla com info1, info2, info3, info4
   def receivedMessageCAN(self):
-    # Configurações da interface CAN
+    """Função para receber a mensagem CAN e retornar uma tupla com info1, info2, info3, info4"""
     self.openCommCAN()
 
     # Recebe a mensagem CAN
@@ -77,16 +79,16 @@ class canBus:
       print('Received message:', msg)
         
       # Reconstrói as informações originais de 2 bytes cada
-      info1 = (msg.data[0] << 8) | msg.data[1]
-      info2 = (msg.data[2] << 8) | msg.data[3]
-      info3 = (msg.data[4] << 8) | msg.data[5]
-      info4 = (msg.data[6] << 8) | msg.data[7]
+      receiveInfo1 = (msg.data[0] << 8) | msg.data[1]
+      receiveInfo2 = (msg.data[2] << 8) | msg.data[3]
+      receiveInfo3 = (msg.data[4] << 8) | msg.data[5]
+      receiveInfo4 = (msg.data[6] << 8) | msg.data[7]
       
       # Desliga a interface CAN
       self.closeCommCAN()
 
       # Retorna as informações como uma tupla
-      return info1, info2, info3, info4
+      return receiveInfo1, receiveInfo2, receiveInfo3, receiveInfo4
 
 if __name__ == "__main__":   
   canBus = canBus(_channel='can0', _bustype='socketcan', _bitrate='1000000')
