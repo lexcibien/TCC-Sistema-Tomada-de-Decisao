@@ -4,32 +4,31 @@ Sistema que visa aplicar em uma bancada de teste um sistema de tomada de decisã
 
 Foi utilizado o branch de **simulation** para realização do meu TCC. O branch **main** é destinado para uso no protótipo da bancada de teste.
 
+## Como instalar as Requisições?
+
+```python
+pip install -r requirements.txt
+
+```
+
 ## Desenvolvimento
 
 Abaixo está a árvore de decisão que foi desenvolvida para servir de base para a programação do sistema de decisão.
 
-<p align="center"><img align="center" width="800" src="/../simulation/assets/ARVORE_DECISAO.png" /></p>
+![Árvore de Decisão](../simulation/assets/ARVORE_DECISAO.png)
 
 Abaixo está o diagrama da bancada de teste.
 
-<p align="center"><img align="center" width="800" src="/../simulation/assets/DIAGRAMA_PROJETO.png" /></p>
+![Diagrama no Projeto](../simulation/assets/DIAGRAMA_PROJETO.png)
 
 Uma bancada de teste foi desenvolvida em conjunto com esta programação, para utilização e desenvolvimento dentro da instituição em veículos autônomos.
 
-<table align="center">
-  <tr>
-    <td width="53%"><img src="/../simulation/assets/BANCADA_PROJETO.png" /></td>
-    <td><img src="/../simulation/assets/BANCADA_PRONTA.jpg" /></td>
-  </tr>
-</table>
+![Bancada Projeto](../simulation/assets/BANCADA_PROJETO.png)
+![Bancada Pronta](../simulation/assets/BANCADA_PRONTA.jpg)
 
 ## Aceleradores
 
 Esse artigo não seria possível sem o corpo docente e os recursos das seguintes instituições:
 
-<table align="center">
-  <tr>
-    <td><img src="/../simulation/assets/UNISATC_COLORIDA.png" /></td>
-    <td width="53%"><img src="/../simulation/assets/FAPESC_COLORIDA.png" /></td>
-  </tr>
-</table>
+![UNISATC Logo](../simulation/assets/UNISATC_COLORIDA.png)
+![FAPESC Logo](../simulation/assets/FAPESC_COLORIDA.png)
