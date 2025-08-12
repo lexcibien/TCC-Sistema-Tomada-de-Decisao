@@ -23,33 +23,34 @@ FalhaAnt = 06; """
 VeloCarro = 50
 newVeloCarro = 0
 
-usleep = lambda x: sleep(x/1000000.0)
+def usleep(x): 
+    sleep(x/1000000.0)
 
 transmissor = Comms(SERIAL_PORT, BAUD_RATE, SERIAL_TIMEOUT_MS)
 print("Iniciando Transmissor")
 
 while True:
-  """ transmissor.sendMessage("RpmMot", RotMotor)
-  transmissor.sendMessage("CurMot", CurMotor)
-  transmissor.sendMessage("FreMot", FreqMotor)
-  transmissor.sendMessage("SttInv", StatusInv)
-  transmissor.sendMessage("VolInv", VoltageInv)
-  transmissor.sendMessage("VelCar", VeloCarro)
-  transmissor.sendMessage("TrqMot", TorqMotor)
-  transmissor.sendMessage("TmpFt1", TempFET1)
-  transmissor.sendMessage("TmpFt2", TempFET2)
-  transmissor.sendMessage("TmpAir", TempAirInt)
-  transmissor.sendMessage("OvrMot", OVCMotor)
-  transmissor.sendMessage("Alarme", AlarmeAtual)
-  transmissor.sendMessage("FalAtu", FalhaAtual)
-  transmissor.sendMessage("FalAnt", FalhaAnt) """
+    """transmissor.sendMessage("RpmMot", RotMotor)
+    transmissor.sendMessage("CurMot", CurMotor)
+    transmissor.sendMessage("FreMot", FreqMotor)
+    transmissor.sendMessage("SttInv", StatusInv)
+    transmissor.sendMessage("VolInv", VoltageInv)
+    transmissor.sendMessage("VelCar", VeloCarro)
+    transmissor.sendMessage("TrqMot", TorqMotor)
+    transmissor.sendMessage("TmpFt1", TempFET1)
+    transmissor.sendMessage("TmpFt2", TempFET2)
+    transmissor.sendMessage("TmpAir", TempAirInt)
+    transmissor.sendMessage("OvrMot", OVCMotor)
+    transmissor.sendMessage("Alarme", AlarmeAtual)
+    transmissor.sendMessage("FalAtu", FalhaAtual)
+    transmissor.sendMessage("FalAnt", FalhaAnt)"""
 
-  #transmissor.sendMessage("VelCar", newVeloCarro)
-  #transmissor.sendMessage("VelCar", VeloCarro)
+    # transmissor.sendMessage("VelCar", newVeloCarro)
+    # transmissor.sendMessage("VelCar", VeloCarro)
 
-  transmissor.reqValuePot()
-  transmissor.reqVoltagePot()
-  print(transmissor.PotValue)
-  print(transmissor.PotVoltageValue)
+    pot_value = transmissor.req_value_pot()
+    voltage_pot = transmissor.req_voltage_pot()
+    print(pot_value)
+    print(voltage_pot)
 
-  usleep(5)  # Tempo menor entre envios3
+    usleep(5)  # Tempo menor entre envios3

@@ -10,10 +10,9 @@ Crie uma virtual env para poder salvar as bibliotecas diretamente no projeto.
 
 ```bash
 python.exe -m pip install --upgrade pip
-python -m venv venv/
-./venv/Scripts/activate
+python -m venv .venv/
+.venv/Scripts/activate
 pip install -r requirements.txt
-
 ```
 
 ## Desenvolvimento

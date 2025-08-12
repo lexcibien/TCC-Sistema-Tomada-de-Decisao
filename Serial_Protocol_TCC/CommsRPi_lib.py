@@ -6,6 +6,8 @@ Data de início: abril de 2024
 
 **************************************************************"""
 
+from time import sleep, time
+
 from serial import Serial
 
 # configurar o /boot/firmware/config.txt
@@ -22,7 +24,7 @@ class Comms:
     self.serial_port = Serial(serial_port, baud_rate, timeout=self.timeout)  # Usando UART no GPIO
     self.serial_port.flush()  # Limpa o buffer da porta serial
 
-  def sendMessageHandler(self, ack_string, info_int=''):
+  def send_message_handler(self, ack_string, info_int=''):
     mensagem = f"{ack_string}:{info_int}\n"
     try:
       self.serial_port.write(mensagem.encode("ascii"))  # Envia a mensagem com codificacao ASCII
@@ -30,26 +32,13 @@ class Comms:
     except UnicodeEncodeError as e:
       print(f"Erro ao enviar mensagem: {e}")
 
-  def changeNum(self, number):
+  def change_num(self, number):
     number += 10
     if number > 200:
       number = 100  # Limita a velocidade
     print(f"Nova velocidade: {number}")
 
-  def sendMessage(self, ack_string, info_int, max_attempts=5):
-    attempts = 0
-    while attempts < max_attempts:
-      self.sendMessageHandler(ack_string, info_int)
-      hasReceived, valueType, value = self.receiveMessage()
-      if hasReceived and valueType == "ACK":
-        self.changeNum(info_int)
-        return
-      attempts += 1
-      print(f"Tentativa {attempts} falhou. Reenviando...")
-      sleep(0.1)
-    print("Máximo de tentativas de envio alcançado, encerrando operação.")
-
-  def receiveMessage(self) -> tuple:
+  def receive_message(self) -> tuple:
     if self.serial_port.in_waiting > 0:
       try:
         resposta = self.serial_port.readline().decode("ascii").strip()
@@ -57,11 +46,11 @@ class Comms:
           print("Resposta recebida: ACK")
           return True, "ACK", None
 
-        elif resposta.startswith("PotRes:"):
+        if resposta.startswith("PotRes:"):
           valor_pot = int(resposta.split(":")[1])
           return True, "PotRes", valor_pot
 
-        elif resposta.startswith("VopRes:"):
+        if resposta.startswith("VopRes:"):
           valor_vop = float(resposta.split(":")[1])
           return True, "VopRes", valor_vop
 
@@ -73,29 +62,37 @@ class Comms:
       print("Nenhuma resposta ou resposta inválida.")
     return False, None, None
 
+  def send_message(self, ack_string, info_int, max_attempts=5):
+    attempts = 0
+    while attempts < max_attempts:
+      self.send_message_handler(ack_string, info_int)
+      has_received, value_type, _ = self.receive_message()
+      if has_received and value_type == "ACK":
+        self.change_num(info_int)
+        return
+      attempts += 1
+      print(f"Tentativa {attempts} falhou. Reenviando...")
+      sleep(0.1)
+    print("Máximo de tentativas de envio alcançado, encerrando operação.")
 
-  def reqVoltagePot(self) -> int:
-    self.sendMessageHandler("PotReq")
-    hasReceived, valueType, valuePot = self.receiveMessage()
-    if hasReceived and valueType == "PotRes":
+  def req_voltage_pot(self) -> int | None:
+    self.send_message_handler("PotReq")
+    has_received, value_type, value_pot = self.receive_message()
+    if has_received and value_type == "PotRes":
       sleep(0.003)
-      return valuePot
-    else:
-      print("Erro: Mensagem de resposta de Potência esperada, mas outra foi recebida ou houve falha.")
-      return None
+      return value_pot
+    print("Erro: Mensagem de resposta de Potência esperada, mas outra foi recebida ou houve falha.")
+    return None
 
 
-  def reqValuePot(self) -> float:
-    self.sendMessageHandler("VopReq")
-    hasReceived, valueType, voltagePot = self.receiveMessage()
-    if hasReceived and valueType == "VopRes":
+  def req_value_pot(self) -> float | None:
+    self.send_message_handler("VopReq")
+    has_received, value_type, voltage_pot = self.receive_message()
+    if has_received and value_type == "VopRes":
       sleep(0.003)
-      return voltagePot
-    else:
-      print("Erro: Mensagem de resposta de Voltagem esperada, mas outra foi recebida ou houve falha.")
-      return None
-
-from time import sleep, time
+      return voltage_pot
+    print("Erro: Mensagem de resposta de Voltagem esperada, mas outra foi recebida ou houve falha.")
+    return None
 
 if __name__ == "__main__":
   SERIAL_PORT = "/dev/ttyAMA0"
@@ -114,7 +111,8 @@ if __name__ == "__main__":
   PotVoltageValue = 0
 
   lastTime1 = time()
-  usleep = lambda x: sleep(x/1000000.0)
+  def usleep(x): 
+    sleep(x/1000000.0)
 
   transmissor = Comms(SERIAL_PORT, BAUD_RATE, SERIAL_TIMEOUT_MS)
   print("Iniciando Transmissor")
@@ -123,8 +121,8 @@ if __name__ == "__main__":
     tempo_atual = time()
     
     if tempo_atual - lastTime1 >= (INTERVALO / 10):
-      raw_PotValue = transmissor.reqValuePot()
-      PotVoltageValue = transmissor.reqVoltagePot()
+      raw_PotValue = transmissor.req_value_pot()
+      PotVoltageValue = transmissor.req_voltage_pot()
       print(f"Valor do potenciômetro: {raw_PotValue}")
       print(f"Valor de tensão: {PotVoltageValue}")
       

@@ -1,7 +1,8 @@
 """
-  Executar o código no terminal do Raspberry Pi
-  python3 main.py
+Executar o código no terminal do Raspberry Pi
+python3 main.py
 """
+
 from CANBusRPi_lib import canBus
 
 newRotMotor = 110
@@ -26,28 +27,28 @@ AlarmeAtual = 08;
 FalhaAtual = 07;
 FalhaAnt = 06; """
 
-canBus = canBus(_channel='can0', _bustype='socketcan', _bitrate='1000000')
+canBus = canBus(_channel="can0", _bustype="socketcan", _bitrate="1000000")
 
 while True:
-  canBus.CAN_id = 0x00
-  canBus.CAN_dlc = 8
-  canBus.sendMessageCAN(newRotMotor)
+    canBus.CAN_id = 0x00
+    canBus.CAN_dlc = 8
+    canBus.sendMessageCAN(newRotMotor)
 
-  # Recebendo a mensagem e atribuindo os valores a info1, info2, info3, info4
-  info1, info2, info3, info4 = canBus.receivedMessageCAN()
+    # Recebendo a mensagem e atribuindo os valores a info1, info2, info3, info4
+    info1, info2, info3, info4 = canBus.received_message_can()
 
-  if canBus.CAN_id == 0x0E:
-    RotMotor = info1
-    VeloCarro = info2
-    TempFET1 = info3
-    StatusInv = info4
-  else:
-    info1 = 0
-    info2 = 0
-    info3 = 0
-    info4 = 0
-  
-  """ if canBus.CAN_id == 0x0E:
+    if canBus.CAN_id == 0x0E:
+        RotMotor = info1
+        VeloCarro = info2
+        TempFET1 = info3
+        StatusInv = info4
+    else:
+        info1 = 0
+        info2 = 0
+        info3 = 0
+        info4 = 0
+
+    """ if canBus.CAN_id == 0x0E:
     RotMotor = info1
     CurMotor = info2
     FreqMotor = info3
@@ -65,5 +66,5 @@ while True:
   if canBus.CAN_id == 0x11:
     FalhaAtual = info1
     FalhaAnt = info2 """
-    
-  print(f'Info1: {info1}, Info2: {info2}, Info3: {info3}, Info4: {info4}')
+
+    print(f"Info1: {info1}, Info2: {info2}, Info3: {info3}, Info4: {info4}")
