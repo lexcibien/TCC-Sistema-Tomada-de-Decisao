@@ -25,7 +25,6 @@ while True:
 
   if tempo_atual - ultimo_tempo >= INTERVALO:
     decision_from_logic = app.decision_from_input_improved(potentiometer_value, cam_value, rfid_value)
-    #app.executeDecision(decisionFromLogic)
     indexExit = app.which_index_matrix(potentiometer_value, cam_value, rfid_value)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     app.save_log(workbook, timestamp, potentiometer_value, cam_value, rfid_value, 0, indexExit)

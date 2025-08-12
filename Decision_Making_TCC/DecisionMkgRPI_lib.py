@@ -216,6 +216,8 @@ class DecisionMkg:
         else:
             excel_workbook = Workbook()
             sheet = excel_workbook.active
+            if not sheet:
+                return
             sheet.title = "DataLog"
             sheet.append(
                 [

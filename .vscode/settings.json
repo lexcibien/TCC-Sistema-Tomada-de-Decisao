@@ -16,6 +16,7 @@
     "montecarlo",
     "numpy",
     "opencv",
+    "openpyxl",
     "potenciometro",
     "pyparsing",
     "raspi",
@@ -26,6 +27,7 @@
     "uart",
     "UART",
     "usleep",
-    "venv"
+    "venv",
+    "xmlfile"
   ]
 }

@@ -27,6 +27,8 @@ VeloCarro = 0
 newVeloCarro = 0
 
 PotValue = 0
+CamValue = 0
+RFIDValue = 0
 PotVoltageValue = 0
 
 lastTime1 = time()
